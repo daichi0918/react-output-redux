@@ -3,7 +3,7 @@
  *
  * @package templates
  */
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -13,6 +13,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const TodoTemplate = () => {
+  // state定義
+  const [addInput, setAddInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const lists = [
     {
       id: 1,
@@ -23,6 +26,10 @@ const TodoTemplate = () => {
       title: 'Todo2',
     },
   ];
+
+  // action定義
+  const onChangeAddInput = (e) => setAddInput(e.target.value);
+  const onChangeSearchInput = (e) => setSearchInput(e.target.value);
   return (
     <>
       <div className={styles.container}>
@@ -33,6 +40,8 @@ const TodoTemplate = () => {
             className={styles.input}
             type={'text'}
             placeholder={'New Todo'}
+            value={addInput}
+            onChange={onChangeAddInput}
           />
         </section>
         <section className={styles.common}>
@@ -40,6 +49,8 @@ const TodoTemplate = () => {
             className={styles.input}
             type={'text'}
             placeholder={'Search Keyword'}
+            value={searchInput}
+            onChange={onChangeSearchInput}
           />
         </section>
         <section className={styles.common}>
