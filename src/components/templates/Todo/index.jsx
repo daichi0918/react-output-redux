@@ -5,8 +5,24 @@
  */
 import React from 'react';
 import styles from './styles.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFile,
+  faPenToSquare,
+  faTrashCan,
+} from '@fortawesome/free-solid-svg-icons';
 
 const TodoTemplate = () => {
+  const lists = [
+    {
+      id: 1,
+      title: 'Todo1',
+    },
+    {
+      id: 2,
+      title: 'Todo2',
+    },
+  ];
   return (
     <>
       <div className={styles.container}>
@@ -26,7 +42,19 @@ const TodoTemplate = () => {
             placeholder={'Search Keyword'}
           />
         </section>
-        <section className={styles.common}></section>
+        <section className={styles.common}>
+          <ul className={styles.list}>
+            {lists.length > 0 &&
+              lists.map((todo) => (
+                <li key={todo.id} className={styles.todo}>
+                  <span className={styles.task}>{todo.title}</span>
+                  <div className={styles.far}>
+                    <FontAwesomeIcon icon={faTrashCan} size="lg" />
+                  </div>
+                </li>
+              ))}
+          </ul>
+        </section>
       </div>
     </>
   );
