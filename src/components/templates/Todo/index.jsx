@@ -7,25 +7,24 @@ import React, { useState } from 'react';
 import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteList } from '../../../store/todoSlice';
 
 const TodoTemplate = () => {
+  const lists = useSelector((state) => state.todos.lists);
+  const dispatch = useDispatch();
   // state定義
   const [addInput, setAddInput] = useState('');
   const [searchInput, setSearchInput] = useState('');
-  const lists = [
-    {
-      id: 1,
-      title: 'Todo1',
-    },
-    {
-      id: 2,
-      title: 'Todo2',
-    },
-  ];
 
   // action定義
   const onChangeAddInput = (e) => setAddInput(e.target.value);
   const onChangeSearchInput = (e) => setSearchInput(e.target.value);
+
+  const handleDeleteTodo = (todoId) => {
+    dispatch(deleteList({ id: todoId }));
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -56,7 +55,13 @@ const TodoTemplate = () => {
                 <li key={todo.id} className={styles.todo}>
                   <span className={styles.task}>{todo.title}</span>
                   <div className={styles.far}>
-                    <FontAwesomeIcon icon={faTrashCan} size="lg" />
+                    <FontAwesomeIcon
+                      icon={faTrashCan}
+                      size="lg"
+                      onClick={() =>
+                        dispatch(deleteList({ id: todo.id, title: todo.title }))
+                      }
+                    />
                   </div>
                 </li>
               ))}
