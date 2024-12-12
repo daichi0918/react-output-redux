@@ -5,6 +5,7 @@ export const todoSlice = createSlice({
   name: 'todos',
   initialState: {
     lists: INIT_TODO_LIST,
+    listsLength: INIT_TODO_LIST.length,
   },
   reducers: {
     deleteList: (state, action) => {
@@ -16,9 +17,21 @@ export const todoSlice = createSlice({
         );
       }
     },
+    addList: (state, action) => {
+      const title = action.payload.title;
+      const newId = state.listsLength + 1;
+      state.lists = [
+        ...state.lists,
+        {
+          id: newId,
+          title: title,
+        },
+      ];
+      state.listsLength = newId;
+    },
   },
 });
 
-export const { deleteList } = todoSlice.actions;
+export const { deleteList, addList } = todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -8,7 +8,7 @@ import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteList } from '../../../store/todoSlice';
+import { addList, deleteList } from '../../../store/todoSlice';
 
 const TodoTemplate = () => {
   const lists = useSelector((state) => state.todos.lists);
@@ -21,10 +21,12 @@ const TodoTemplate = () => {
   const onChangeAddInput = (e) => setAddInput(e.target.value);
   const onChangeSearchInput = (e) => setSearchInput(e.target.value);
 
-  const handleDeleteTodo = (todoId) => {
-    dispatch(deleteList({ id: todoId }));
+  const handleAddNewTodo = (e) => {
+    if (e.key === 'Enter' && addInput !== '') {
+      dispatch(addList({ title: addInput }));
+      setAddInput('');
+    }
   };
-
   return (
     <>
       <div className={styles.container}>
@@ -37,6 +39,7 @@ const TodoTemplate = () => {
             placeholder={'New Todo'}
             value={addInput}
             onChange={onChangeAddInput}
+            onKeyDown={(e) => handleAddNewTodo(e)}
           />
         </section>
         <section className={styles.common}>
