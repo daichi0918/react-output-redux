@@ -3,7 +3,7 @@
  *
  * @package templates
  */
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addList, deleteList } from '../../../store/todoSlice';
 
 const TodoTemplate = () => {
-  const lists = useSelector((state) => state.todos.lists);
+  const originalTodoList = useSelector((state) => state.todos.lists);
   const dispatch = useDispatch();
   // state定義
   const [addInput, setAddInput] = useState('');
@@ -27,6 +27,16 @@ const TodoTemplate = () => {
       setAddInput('');
     }
   };
+
+  /**
+   * 表示用TodoList
+   */
+  const showTodoList = useMemo(() => {
+    return originalTodoList.filter((todo) => {
+      const regexp = new RegExp('^' + searchInput, 'i');
+      return todo.title.match(regexp);
+    });
+  }, [searchInput, originalTodoList]);
   return (
     <>
       <div className={styles.container}>
@@ -53,8 +63,8 @@ const TodoTemplate = () => {
         </section>
         <section className={styles.common}>
           <ul className={styles.list}>
-            {lists.length > 0 &&
-              lists.map((todo) => (
+            {showTodoList.length > 0 &&
+              showTodoList.map((todo) => (
                 <li key={todo.id} className={styles.todo}>
                   <span className={styles.task}>{todo.title}</span>
                   <div className={styles.far}>
