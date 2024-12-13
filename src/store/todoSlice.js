@@ -9,13 +9,7 @@ export const todoSlice = createSlice({
   },
   reducers: {
     deleteList: (state, action) => {
-      if (
-        window.confirm(`タスク：${action.payload.title}を本当に削除しますか？`)
-      ) {
-        state.lists = state.lists.filter(
-          (list) => list.id !== action.payload.id
-        );
-      }
+      state.lists = state.lists.filter((list) => list.id !== action.payload.id);
     },
     addList: (state, action) => {
       const title = action.payload.title;

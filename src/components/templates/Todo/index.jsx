@@ -28,6 +28,14 @@ const TodoTemplate = () => {
     }
   };
 
+  const handleDeleteTodo = () => {
+    if (
+      window.confirm(`タスク：${action.payload.title}を本当に削除しますか？`)
+    ) {
+      dispatch(deleteList({ id: todo.id, title: todo.title }));
+    }
+  };
+
   /**
    * 表示用TodoList
    */
@@ -71,9 +79,7 @@ const TodoTemplate = () => {
                     <FontAwesomeIcon
                       icon={faTrashCan}
                       size="lg"
-                      onClick={() =>
-                        dispatch(deleteList({ id: todo.id, title: todo.title }))
-                      }
+                      onClick={() => handleDeleteTodo()}
                     />
                   </div>
                 </li>
